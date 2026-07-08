@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "serverless deploy",
+    "remove": "serverless remove",
+    "logs": "serverless logs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1081.0",
+    "@aws-sdk/lib-dynamodb": "^3.1081.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "serverless": "^4.39.0"
+  }
+}

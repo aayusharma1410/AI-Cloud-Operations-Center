@@ -1,0 +1,59 @@
+service: ai-cloud-operations-center
+
+frameworkVersion: "4"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-west-2
+  stage: dev
+
+  environment:
+    INCIDENT_TABLE: IncidentTable
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: "*"
+
+functions:
+
+  createIncident:
+    handler: src/createIncident.handler
+    events:
+      - httpApi:
+          path: /incident
+          method: post
+
+  getIncidents:
+    handler: src/getIncidents.handler
+    events:
+      - httpApi:
+          path: /incidents
+          method: get
+
+  dashboardStats:
+    handler: src/dashboardStats.handler
+    events:
+      - httpApi:
+          path: /dashboard
+          method: get
+
+resources:
+  Resources:
+    IncidentTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: IncidentTable
+        BillingMode: PAY_PER_REQUEST
+
+        AttributeDefinitions:
+          - AttributeName: incidentId
+            AttributeType: S
+
+        KeySchema:
+          - AttributeName: incidentId
+            KeyType: HASH
