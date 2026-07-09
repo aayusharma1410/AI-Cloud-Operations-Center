@@ -1,10 +1,8 @@
 exports.handler = async (event) => {
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: "AI Analysis module will be implemented using Amazon Bedrock."
-    })
-  };
+    console.log("========== NEW INCIDENT ==========");
 
+    console.log(JSON.stringify(event, null, 2));
+
+    return;
 };

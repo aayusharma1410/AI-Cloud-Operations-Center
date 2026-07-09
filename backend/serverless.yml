@@ -1,3 +1,5 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: aayusharma1410
 service: ai-cloud-operations-center
 
 frameworkVersion: "4"
@@ -42,6 +44,16 @@ functions:
           path: /dashboard
           method: get
 
+  analyzeIncident:
+    handler: src/analyzeIncident.handler
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt:
+              - IncidentTable
+              - StreamArn
+
 resources:
   Resources:
     IncidentTable:
@@ -49,6 +61,9 @@ resources:
       Properties:
         TableName: IncidentTable
         BillingMode: PAY_PER_REQUEST
+
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
 
         AttributeDefinitions:
           - AttributeName: incidentId

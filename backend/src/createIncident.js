@@ -3,7 +3,7 @@ const {
   DynamoDBDocumentClient,
   PutCommand,
 } = require("@aws-sdk/lib-dynamodb");
-const { v4: uuidv4 } = require("uuid");
+const crypto = require("crypto");
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
@@ -13,7 +13,7 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body);
 
     const incident = {
-      incidentId: `INC-${uuidv4().substring(0, 8).toUpperCase()}`,
+      incidentId: `INC-${crypto.randomUUID().substring(0, 8).toUpperCase()}`,
       service: body.service,
       errorType: body.errorType,
       severity: body.severity,
